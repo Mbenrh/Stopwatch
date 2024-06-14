@@ -1,0 +1,62 @@
+<!DOCTYPE html> <!-- Document type declaration -->
+<html lang="en"> <!-- Language declaration -->
+<head>
+    <meta charset="UTF-8"> <!-- Character encoding declaration -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Viewport declaration -->
+    <title>Stopwatch</title> <!-- Title of the document -->
+    <link rel="stylesheet" href="StopWatch.css"> <!-- Link to external CSS file -->
+</head>
+<body>
+    <div class="watch">
+        <h1 id="displayTime">00:00:00</h1> <!-- Display for stopwatch time -->
+        <div class="buttons">
+            <!-- Images for stopwatch controls with onclick event handlers -->
+            <img src="images/stop.png" onclick="stopwatch()">
+            <img src="images/start.png" onclick="watchStart()">
+            <img src="images/reset.png" onclick="watchReset()">
+        </div>
+    </div>
+    <script>
+        let [seconds, minutes, hours] = [0, 0, 0]; // Initialize variables for time tracking
+        let displayTime = document.getElementById("displayTime"); // Reference to display element
+        let timer = null; // Variable to store setInterval reference
+        
+        function watch() {
+            // Function to increment time for stopwatch
+            seconds++;
+            if (seconds == 60) {
+                seconds = 0;
+                minutes++;
+                if (minutes == 60) {
+                    minutes = 0;
+                    hours++;
+                }
+            }
+            // Format time components to display as HH:MM:SS
+            let h = hours < 10 ? "0" + hours : hours;
+            let m = minutes < 10 ? "0" + minutes : minutes;
+            let s = seconds < 10 ? "0" + seconds : seconds;
+            displayTime.innerHTML = h + ":" + m + ":" + s; // Update display
+        }
+        
+        function watchStart() {
+            // Function to start stopwatch
+            if (timer !== null) {
+                clearInterval(timer); // Clear existing timer
+            }
+            timer = setInterval(watch, 1000); // Start new timer
+        }
+        function stopwatch() {
+            // Fonction pour arrêter le chronomètre
+            clearInterval(timer); // Arrête le chronomètre
+        }
+        
+        function watchReset() {
+            // Function to reset stopwatch
+            clearInterval(timer); // Clear timer
+            [seconds, minutes, hours] = [0, 0, 0]; // Reset time variables
+            displayTime.innerHTML = "00:00:00"; // Reset display
+        }
+    </script>
+</body>
+</html>
